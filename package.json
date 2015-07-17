@@ -1,6 +1,6 @@
 {
   "name": "hubot-team-remind-her",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Friendly team reminder script for Hubot",
   "main": "index.coffee",
   "scripts": {
@@ -14,7 +14,7 @@
     "hubot",
     "reminder"
   ],
-  "author": "Brandon Lavigne",
+  "author": " alexwhitman, tombell, aw, Iristyle, technicalpickles, ameketa, philips, drrobotnik",
   "license": "MIT",
   "dependencies": {
     "chrono-node": "^1.0.6",

@@ -1,6 +1,6 @@
 {
   "name": "hubot-team-remind-her",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Friendly team reminder script for Hubot",
   "main": "index.coffee",
   "scripts": {

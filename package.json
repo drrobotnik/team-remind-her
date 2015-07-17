@@ -14,7 +14,7 @@
     "hubot",
     "reminder"
   ],
-  "author": "Manav Rathi",
+  "author": "Brandon Lavigne",
   "license": "MIT",
   "dependencies": {
     "chrono-node": "^1.0.6",

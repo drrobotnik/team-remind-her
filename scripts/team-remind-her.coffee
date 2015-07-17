@@ -1,17 +1,17 @@
 # Description:
-#   Friendly reminders for hubot
+#   Friendly team reminders for hubot
 #
 # Commands:
-#   hubot remind me tomorrow to document this better
-#   hubot remind us in 15 minutes to end this meeting
-#   hubot remind at 5 PM to go home
-#   hubot (list|show|all) remind[ers]
-#   hubot remind[ers] (list|show|all)
-#   hubot [delete|remove|stop] remind[er] [NUMBER]
-#   hubot remind[er] (delete|remove|stop) [NUMBER]
-#   hubot remind in every 30 minutes to take a walk
-#   hubot remind[er] repeat [NUMBER]
-#   hubot repeat remind[er] [NUMBER]
+#   *hubot remind me tomorrow to document this better*
+#   *hubot remind `users name` in 15 minutes to end this meeting*
+#   *hubot remind at 5 PM to go home*
+#   *hubot `list|show|all` remind[ers]*
+#   *hubot remind[ers] `list|show|all`*
+#   *hubot [delete|remove|stop] remind[er] [NUMBER]*
+#   *hubot remind[er] `delete|remove|stop` [NUMBER]*
+#   *hubot remind in every 30 minutes to take a walk*
+#   *hubot remind[er] repeat [NUMBER]*
+#   *hubot repeat remind[er] [NUMBER]*
 #
 # Notes:
 #   For help with the time string syntax, see
@@ -193,6 +193,20 @@ module.exports = (robot) ->
 
   robot.respond /remind (.+) ((to|for).*)/i, (msg) ->
     reminders.add msg
+
+  robot.respond /(remind )(.*) in ((?:(?:\d+) (?:weeks?|days?|hours?|hrs?|minutes?|mins?|seconds?|secs?)[ ,]*(?:and)? +)+)to (.*)/i, (msg) ->
+    who = msg.match[2]
+    time = msg.match[3]
+    action = msg.match[4]
+
+    users = robot.brain.usersForFuzzyName(who)
+    if users.length is 1
+      user = users[0]
+
+    msg.envelope.user = user
+
+    reminder = new Reminder msg.envelope, time, action
+    reminders.add reminder
 
   robot.respond /(list|show|all)\s+remind(er|ers)?/i, (msg) ->
     msg.send reminders.list(msg)

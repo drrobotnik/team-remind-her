@@ -1,14 +1,14 @@
 {
-  "name": "hubot-remind-her",
-  "version": "0.4.0",
-  "description": "Friendly reminder script for Hubot",
+  "name": "hubot-team-remind-her",
+  "version": "0.4.1",
+  "description": "Friendly team reminder script for Hubot",
   "main": "index.coffee",
   "scripts": {
     "test": "mocha"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mx4492/hubot-remind-her.git"
+    "url": "https://github.com/drrobotnik/hubot-team-remind-her.git"
   },
   "keywords": [
     "hubot",
@@ -28,5 +28,5 @@
     "chai": "*",
     "hubot-test-helper": "*"
   },
-  "homepage": "https://github.com/mx4492/hubot-remind-her"
+  "homepage": "https://github.com/drrobotnik/hubot-team-remind-her"
 }

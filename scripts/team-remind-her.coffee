@@ -144,13 +144,20 @@ module.exports = (robot) ->
     msg.send 'I\'ll remind you to ' + action + ' on ' + reminder.dueDate()
 
   robot.respond /remind (\w*) (.*) to (.*)/i, (msg) ->
+    console.log(msg)
     who = msg.match[1]
     time = get_time( msg.match[2] )
     action = msg.match[3]
 
+    console.log(who)
+    console.log(time)
+    console.log(action)
+
     users = robot.brain.usersForFuzzyName(who)
     if users.length is 1
       user = users[0]
+
+    console.log(user)
 
     msg.envelope.user = user
 

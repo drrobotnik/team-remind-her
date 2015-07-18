@@ -14,6 +14,39 @@
 # Author:
 #   whitman
 
+chrono = require 'chrono-node'
+uuid = require 'node-uuid'
+moment = require 'moment'
+
+time_until = (date) ->
+  date.getTime() - new Date().getTime()
+
+chrono_parse = (text, ref) ->
+  results = chrono.parse text, ref
+  if results.length == 0
+    return
+  result = results[0]
+  date = result.start.date()
+  if time_until(date) <= 0 && result.tags.ENTimeExpressionParser
+    ref = chrono.parse('tomorrow')[0].start.date()
+    return chrono_parse text, ref
+  result
+
+get_time = (text) ->
+  chrono_result = chrono_parse text
+    if not chrono_result and text.indexOf('every')
+      text = text.replace 'in every', 'every in'
+      chrono_result = chrono_parse text
+
+    unless chrono_result
+      msg.send "I did not understand the date in '#{text}'"
+      return
+
+    every_idx = text.indexOf('every')
+    repeat = every_idx > -1 and every_idx < chrono_result.index
+    date = chrono_result.start.date()
+    return date
+
 class Reminders
   constructor: (@robot) ->
     @cache = []
@@ -103,17 +136,17 @@ module.exports = (robot) ->
 
   reminders = new Reminders robot
 
-  robot.respond /remind me in ((?:(?:\d+) (?:weeks?|days?|hours?|hrs?|minutes?|mins?|seconds?|secs?)[ ,]*(?:and)? +)+)to (.*)/i, (msg) ->
-    time = msg.match[1]
+  robot.respond /remind (\w*) (.*) to (.*)/i, (msg) ->
+    time = get_time( msg.match[1] )
     action = msg.match[2]
     reminder = new Reminder msg.envelope, time, action
     reminders.add reminder
     msg.send 'I\'ll remind you to ' + action + ' on ' + reminder.dueDate()
 
-  robot.respond /(remind )(.*) in ((?:(?:\d+) (?:weeks?|days?|hours?|hrs?|minutes?|mins?|seconds?|secs?)[ ,]*(?:and)? +)+)to (.*)/i, (msg) ->
-    who = msg.match[2]
-    time = msg.match[3]
-    action = msg.match[4]
+  robot.respond /remind (\w*) (.*) to (.*)/i, (msg) ->
+    who = msg.match[1]
+    time = get_time( msg.match[2] )
+    action = msg.match[3]
 
     users = robot.brain.usersForFuzzyName(who)
     if users.length is 1

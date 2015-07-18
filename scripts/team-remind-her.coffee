@@ -130,7 +130,7 @@ class Reminder
   dueDate: ->
     dueDate = new Date @due
     options.timeZone = "UTC-8";
-    dueDate.toLocaleString("en-US",options)
+    dueDate.toLocaleString("en-US")
 
 module.exports = (robot) ->
 
